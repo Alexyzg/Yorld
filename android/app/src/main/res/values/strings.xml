@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">yorld</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiYWxpdHNrZXZpY2giLCJhIjoiY2p5bWtwYmgwMGluZDNpbXRwMWk2eG51NyJ9.PHQubjbq-xlcJJGeBT4yNw</string>
 </resources>
