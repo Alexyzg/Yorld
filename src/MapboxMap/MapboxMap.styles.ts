@@ -1,5 +1,5 @@
-import {StyleProp, StyleSheet} from 'react-native';
-import {FillExtrusionLayerStyle} from '@react-native-mapbox-gl/maps';
+import { StyleProp, StyleSheet } from 'react-native';
+import { FillExtrusionLayerStyle } from '@react-native-mapbox-gl/maps';
 
 export const mapboxStylesUrl =
   'mapbox://styles/alyonayanuchek/ck9pti76v3cic1ilchpjj6obq';
