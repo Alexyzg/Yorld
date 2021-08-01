@@ -2,13 +2,6 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import { useRef, useMemo } from 'react';
 import { CoordsArr } from '../../types';
 
-const defaultcamersSettings = {
-  pitch: 60,
-  zoomLevel: 17,
-  animationDuration: 800,
-  heading: 180,
-};
-
 export const useCameraApi = () => {
   const cameraRef = useRef<MapboxGL.Camera>(null);
 
@@ -16,10 +9,10 @@ export const useCameraApi = () => {
     centeringByCoordinate: (coordinate: CoordsArr) => void;
   }>(
     () => ({
-      centeringByCoordinate: ([lng, lat]) => {
+      centeringByCoordinate: coordinate => {
         cameraRef.current?.setCamera({
-          centerCoordinate: [+lng, +lat],
-          ...defaultcamersSettings,
+          centerCoordinate: coordinate,
+          animationDuration: 800,
         });
       },
     }),

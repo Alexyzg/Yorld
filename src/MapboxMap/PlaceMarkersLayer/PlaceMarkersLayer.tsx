@@ -39,7 +39,8 @@ export const PlaceMarkersLayer: React.FC<PlaceMarkersLayerProps> = React.memo(
         shape={formatedCoordinatesOfPlaces}
         onPress={(event: OnPressEvent) => {
           onMarkerPress(getCoordsLikeArr(event.coordinates));
-        }}>
+        }}
+      >
         <MapboxGL.CircleLayer id="PlaceMarker" style={markerStyle} />
       </MapboxGL.ShapeSource>
     );

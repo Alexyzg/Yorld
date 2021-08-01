@@ -1,10 +1,9 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native';
-
-import { MapboxMap } from './src/MapboxMap';
+import { MapScreen } from './src/MapScreen';
 
 export const App = () => (
   <SafeAreaView>
-    <MapboxMap />
+    <MapScreen />
   </SafeAreaView>
 );
