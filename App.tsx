@@ -1,9 +1,9 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native';
-import { MapScreen } from './src/MapScreen';
+
+import 'react-native-gesture-handler';
+
+import { AppNavigation } from './src/navigation/AppNavigation';
 
 export const App = () => (
-  <SafeAreaView>
-    <MapScreen />
-  </SafeAreaView>
+    <AppNavigation />
 );
