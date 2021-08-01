@@ -1,4 +1,4 @@
-export enum Paths  {
+export enum Paths {
   Map = 'Map',
   Place = 'Place',
-};
+}

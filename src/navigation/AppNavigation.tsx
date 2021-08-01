@@ -8,10 +8,7 @@ const Stack = createStackNavigator();
 
 export const AppNavigation: React.FC = () => (
   <NavigationContainer>
-    <Stack.Navigator
-      initialRouteName={Paths.Map}
-      headerMode="none"
-    >
+    <Stack.Navigator initialRouteName={Paths.Map} headerMode="none">
       <Stack.Screen name={Paths.Map} component={MapScreen} />
     </Stack.Navigator>
   </NavigationContainer>

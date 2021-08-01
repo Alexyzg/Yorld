@@ -4,6 +4,4 @@ import 'react-native-gesture-handler';
 
 import { AppNavigation } from './src/navigation/AppNavigation';
 
-export const App = () => (
-    <AppNavigation />
-);
+export const App = () => <AppNavigation />;
