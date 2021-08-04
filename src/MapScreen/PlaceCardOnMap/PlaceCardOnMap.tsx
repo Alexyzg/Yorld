@@ -1,5 +1,8 @@
+// TODO: refactoring
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
+import { Paths } from '../../navigation/paths.types';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -26,8 +29,9 @@ const styles = StyleSheet.create({
 });
 
 export const PlaceCardOnMap: React.FC = React.memo(() => {
+  const { navigate } = useNavigation();
   return (
-    <View style={styles.wrapper}>
+    <Pressable style={styles.wrapper} onPress={() => navigate(Paths.Place)}>
       <Image
         style={styles.image}
         source={{
@@ -35,6 +39,6 @@ export const PlaceCardOnMap: React.FC = React.memo(() => {
         }}
       />
       <Text style={styles.title}>Hi, i am cat.</Text>
-    </View>
+    </Pressable>
   );
 });

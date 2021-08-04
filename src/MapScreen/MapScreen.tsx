@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import { MapboxMap } from '../MapboxMap';
-import { PlaceCardOnMap } from '../MapboxMap/PlaceCardOnMap';
+import { PlaceCardOnMap } from './PlaceCardOnMap';
 
 export const MapScreen: React.FC = () => {
   const [place, setPlace] = useState<null | object>();
