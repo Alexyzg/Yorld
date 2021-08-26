@@ -7,6 +7,9 @@ platform :ios, '10.0'
 # https://docs.mapbox.com/ios/maps/guides/
 $ReactNativeMapboxGLIOSVersion = '~> 6.3.0'
 
+# add pods for desired Firebase products
+# https://firebase.google.com/docs/ios/setup#available-pods
+
 target 'yorld' do
   config = use_native_modules!
 

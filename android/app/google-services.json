@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "157841451694",
+    "firebase_url": "https://yorld-dev-376cd-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "yorld-dev-376cd",
+    "storage_bucket": "yorld-dev-376cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157841451694:android:640dee6a78e7fc33051b3f",
+        "android_client_info": {
+          "package_name": "com.yorld"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "157841451694-cji7j2s7ebo21vu2qt8sm3vefiuotqal.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaV6VOAMZG6X2DK_DFjNBhEttd1h0DesQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "157841451694-cji7j2s7ebo21vu2qt8sm3vefiuotqal.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "157841451694-2hpvq6uv13laqisoec0cln13oe9eiqmj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "yorld-IOS"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
