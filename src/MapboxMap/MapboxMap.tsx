@@ -32,6 +32,7 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
         styleURL={mapboxStylesUrl}
         surfaceView
         compassEnabled={false}
+        logoEnabled={false}
         onPress={onEmptyMapPress}
       >
         <MapboxGL.Camera
@@ -39,6 +40,7 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
           pitch={60}
           zoomLevel={14}
           centerCoordinate={centerVilnius}
+          minZoomLevel={6}
         />
         {/* 3d part of map */}
         <MapboxGL.FillExtrusionLayer
