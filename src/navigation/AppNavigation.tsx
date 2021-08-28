@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from "react-native";
+import { View } from 'react-native';
 import { AnimatedTabBarNavigator } from 'react-native-animated-nav-tab-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Paths } from './paths.types';
 import { MapScreen } from '../MapScreen';
 import { PlaceDetailScreen } from '../PlaceDetailScreen/PlaceDetailScreen';
+import { GridScreen } from '../GridScreen/GridScreen';
 
 const Tabs = AnimatedTabBarNavigator();
 const Stack = createStackNavigator();
@@ -35,7 +36,9 @@ const TabBarIcon = ({ focused, color, size, name }) => (
   />
 );
 
-const Options = name => ({tabBarIcon: (props) => <TabBarIcon {...props} name={name} />})
+const Options = name => ({
+  tabBarIcon: props => <TabBarIcon {...props} name={name} />,
+});
 
 const MainStackNavigator = () => (
   <Stack.Navigator initialRouteName={Paths.Map} headerMode="none">
@@ -51,32 +54,36 @@ export const AppNavigation: React.FC = () => {
   return (
     <NavigationContainer>
       <Tabs.Navigator
-          initialRouteName={Paths.Map}
-              tabBarOptions={{ activeTintColor, inactiveTintColor, tabStyle: { marginBottom:50 } }}
-                appearance={navigatorAppearance}
-                ta
-            >
-                <Tabs.Screen
-                    name={'Map'}
-                    component={MainStackNavigator}
-                    options={Options('map-marker')}
-                />
-                <Tabs.Screen
-                    name="Search"
-                    component={() => <View></View>}
-                    options={Options('search')}
-                />
-                <Tabs.Screen
-                    name="Calendar"
-                    component={() => <View></View>}
-                    options={Options('calendar')}
-                />
-                <Stack.Screen
-                    name="Self"
-                    component={() => <View></View>}
-                    options={Options('paw')}
-                />
-            </Tabs.Navigator>
-        </NavigationContainer>
-    );
-}
+        initialRouteName={Paths.Map}
+        tabBarOptions={{
+          activeTintColor,
+          inactiveTintColor,
+          tabStyle: { marginBottom: 50 },
+        }}
+        appearance={navigatorAppearance}
+        ta
+      >
+        <Tabs.Screen
+          name={'Map'}
+          component={MainStackNavigator}
+          options={Options('map-marker')}
+        />
+        <Tabs.Screen
+          name="Search"
+          component={GridScreen}
+          options={Options('search')}
+        />
+        <Tabs.Screen
+          name="Calendar"
+          component={() => <View />}
+          options={Options('calendar')}
+        />
+        <Stack.Screen
+          name="Self"
+          component={() => <View />}
+          options={Options('paw')}
+        />
+      </Tabs.Navigator>
+    </NavigationContainer>
+  );
+};
