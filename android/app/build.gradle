@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: 'com.google.gms.google-services'
 
 import com.android.build.OutputFile
 
@@ -188,6 +189,8 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
+
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     // Check the current version of the SDK here.
@@ -196,10 +199,13 @@ dependencies {
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:5.6.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v9:0.9.0'
 
+<<<<<<< HEAD
+=======
     compile "com.squareup.okhttp3:okhttp:4.2.1"
     compile "com.squareup.okhttp3:logging-interceptor:4.2.1"
     compile "com.squareup.okhttp3:okhttp-urlconnection:4.2.1"
     
+>>>>>>> master
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }
