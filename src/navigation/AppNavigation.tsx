@@ -9,6 +9,7 @@ import { Paths } from './paths.types';
 import { MapScreen } from '../MapScreen';
 import { PlaceDetailScreen } from '../PlaceDetailScreen/PlaceDetailScreen';
 import { GridScreen } from '../GridScreen/GridScreen';
+import { TimelineScreen } from '../TimelineScreen/TimelineScreen';
 
 const Tabs = AnimatedTabBarNavigator();
 const Stack = createStackNavigator();
@@ -75,7 +76,7 @@ export const AppNavigation: React.FC = () => {
         />
         <Tabs.Screen
           name="Calendar"
-          component={() => <View />}
+          component={TimelineScreen}
           options={Options('calendar')}
         />
         <Stack.Screen
