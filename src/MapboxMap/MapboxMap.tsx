@@ -4,6 +4,7 @@ import { CoordsArr } from '../types';
 import { useCameraApi } from './hooks/cameraApi.hooks';
 import { stylesFor3d, styles, mapboxStylesUrl } from './MapboxMap.styles';
 import { PlaceMarkersLayer } from './PlaceMarkersLayer';
+import { Layout } from '../Layout/Layout';
 
 const centerVilnius = [25.279652, 54.687157];
 
@@ -27,29 +28,31 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
     }, [setPlace]);
 
     return (
-      <MapboxGL.MapView
-        style={styles.map}
-        styleURL={mapboxStylesUrl}
-        surfaceView
-        compassEnabled={false}
-        logoEnabled={false}
-        onPress={onEmptyMapPress}
-      >
-        <MapboxGL.Camera
-          ref={cameraRef}
-          pitch={60}
-          zoomLevel={14}
-          centerCoordinate={centerVilnius}
-          minZoomLevel={6}
-        />
-        {/* 3d part of map */}
-        <MapboxGL.FillExtrusionLayer
-          id="building3d"
-          sourceLayerID="building"
-          style={stylesFor3d}
-        />
-        <PlaceMarkersLayer onMarkerPress={onMarkerPress} />
-      </MapboxGL.MapView>
+     <Layout showTime>
+        <MapboxGL.MapView
+          style={styles.map}
+          styleURL={mapboxStylesUrl}
+          surfaceView
+          compassEnabled={false}
+          logoEnabled={false}
+          onPress={onEmptyMapPress}
+        >
+          <MapboxGL.Camera
+            ref={cameraRef}
+            pitch={60}
+            zoomLevel={14}
+            centerCoordinate={centerVilnius}
+            minZoomLevel={6}
+          />
+          {/* 3d part of map */}
+          <MapboxGL.FillExtrusionLayer
+            id="building3d"
+            sourceLayerID="building"
+            style={stylesFor3d}
+          />
+          <PlaceMarkersLayer onMarkerPress={onMarkerPress} />
+        </MapboxGL.MapView>
+      </Layout>
     );
   },
 );

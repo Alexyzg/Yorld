@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Switch } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import RNMasonryScroll from 'react-native-masonry-scrollview';
 import Image from 'react-native-scalable-image';
 import { useResponsiveWidth } from 'react-native-responsive-dimensions';
+import { Layout } from '../Layout/Layout';
 
 const { createAnimatableComponent } = Animatable;
 
@@ -86,68 +87,44 @@ const images = [
 
 export const GridScreen = () => {
   const imageWidth: number = useResponsiveWidth(50) - 20;
-  const [isHorizontal, setIsHorizontal] = useState<boolean>(false);
-
-  const toggleHorizontal = () => setIsHorizontal(!isHorizontal);
-
-  const imageProp = isHorizontal
-    ? { height: imageWidth }
-    : { width: imageWidth };
 
   return (
     <SafeAreaView>
-      <View style={styles.header}>
-        <Switch onValueChange={toggleHorizontal} value={isHorizontal} />
-        <Text style={styles.headerText}>Horizontal</Text>
-      </View>
-      <RNMasonryScroll
-        removeClippedSubviews={true}
-        columns={isHorizontal ? 3 : 2}
-        evenColumnStyle={styles.evenColumnStyle}
-        oddColumnStyle={
-          isHorizontal
-            ? styles.oddColumnStyleHorizontal
-            : styles.oddColumnStyleVertical
-        }
-        horizontal={isHorizontal}
-      >
-        {images.map((image, imageIndex) => {
-          return (
+      <Layout>
+        <RNMasonryScroll
+          removeClippedSubviews={true}
+          columns={2}
+          evenColumnStyle={styles.evenColumnStyle}
+          oddColumnStyle={styles.oddColumnStyleVertical}
+          horizontal={false}
+        >
+          {images.map((image, imageIndex) => (
             <AnimatableView
               key={image + imageIndex}
-              animation={isHorizontal ? 'fadeInRight' : 'fadeInUp'}
+              animation={'fadeInUp'}
               delay={100 * imageIndex}
               style={styles.imageContainer}
             >
-              <Image source={{ uri: image }} {...imageProp} key={imageIndex} />
+              <Image
+                source={{ uri: image }}
+                width={imageWidth}
+                key={imageIndex}
+              />
             </AnimatableView>
-          );
-        })}
-      </RNMasonryScroll>
+          ))}
+        </RNMasonryScroll>
+      </Layout>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 8,
-    marginTop: 40
-  },
-  headerText: {
-    fontWeight: 'bold',
-    marginHorizontal: 8,
-    fontSize: 16,
-  },
   imageContainer: {
     margin: 10,
     borderRadius: 10,
     overflow: 'hidden',
     backgroundColor: 'silver',
   },
-  evenColumnStyle: {},
-  oddColumnStyleVertical: { marginTop: 60 },
-  oddColumnStyleHorizontal: { marginLeft: 60 },
+  evenColumnStyle: { marginTop: 50 },
+  oddColumnStyleVertical: { marginTop: 50 },
 });
