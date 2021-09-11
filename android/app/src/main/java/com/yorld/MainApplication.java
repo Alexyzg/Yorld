@@ -7,6 +7,7 @@ import com.facebook.react.ReactApplication;
 import com.horcrux.svg.SvgPackage;
 import com.horcrux.svg.SvgPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import cl.hasaezs.rndominantcolor.RNDominantColorPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;

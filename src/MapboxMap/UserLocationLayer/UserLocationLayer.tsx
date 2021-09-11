@@ -53,5 +53,6 @@ export const styles = {
   foreground: {
     circleRadius: 8,
     circleColor: MARSHY,
+    circleStrokeColor: '#fff'
   },
 };

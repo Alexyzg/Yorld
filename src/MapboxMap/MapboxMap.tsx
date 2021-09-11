@@ -65,6 +65,7 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
           />
           <PlaceMarkersLayer onMarkerPress={onMarkerPress} />
           <UserLocationLayer userLocation={userLocation} />
+          {/*<MapboxGL.UserLocation androidRenderMode={'normal'} />*/}
         </MapboxGL.MapView>
         <MyLocationButton
           onMyLocationPress={onMyLocationPress}

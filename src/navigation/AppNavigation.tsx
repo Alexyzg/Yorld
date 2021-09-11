@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { changeBarColors } from 'react-native-immersive-bars';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { Paths } from './paths.types';
 import { MapScreen } from '../MapScreen';
 import { PlaceDetailScreen } from '../PlaceDetailScreen/PlaceDetailScreen';
@@ -43,7 +44,7 @@ const Options = name => ({
 });
 
 const MainStackNavigator = () => (
-  <Stack.Navigator initialRouteName={Paths.Map} headerMode="none">
+  <Stack.Navigator initialRouteName={Paths.Map} headerMode="none" >
     <Stack.Screen name={Paths.Map} component={MapScreen} />
     <Stack.Screen name={Paths.Place} component={PlaceDetailScreen} />
     <Stack.Screen
@@ -53,10 +54,22 @@ const MainStackNavigator = () => (
   </Stack.Navigator>
 );
 
-export const AppNavigation: React.FC = () => {
+const isTabBarVisible = (navState) => {
+  if (!navState) {
+    return true;
+  }
+  let tabBarVisible = navState.routes[navState.index].params ? navState.routes[navState.index].params.showTabBar : true;
+  return tabBarVisible;
+}
+
+
+
+export const AppNavigation: React.FC = ({ navigation, route }) => {
   React.useEffect(() => {
     changeBarColors(false, '#50000000', 'transparent');
   });
+
+
   return (
     <NavigationContainer>
       <Tabs.Navigator
@@ -92,4 +105,11 @@ export const AppNavigation: React.FC = () => {
       </Tabs.Navigator>
     </NavigationContainer>
   );
+};
+
+AppNavigation.navigationOptions = ({ navigation }) => {
+  return {
+    tabBarLabel: 'Messages',
+    tabBarVisible: isTabBarVisible(navigation.state)
+  }
 };
