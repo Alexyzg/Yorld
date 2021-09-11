@@ -5,8 +5,11 @@ import { useCameraApi } from './hooks/cameraApi.hooks';
 import { stylesFor3d, styles, mapboxStylesUrl } from './MapboxMap.styles';
 import { PlaceMarkersLayer } from './PlaceMarkersLayer';
 import { Layout } from '../Layout/Layout';
+import { UserLocationLayer } from './UserLocationLayer';
+import { MyLocationButton } from '../components/MyLocationButton/MyLocationButton';
+import { useGeolocation } from '../hooks/useGeolocation';
 
-const centerVilnius = [25.279652, 54.687157];
+export const centerVilnius: CoordsArr = [25.279652, 54.687157];
 
 type MapboxMapProps = {
   setPlace: (place: object | null) => void;
@@ -15,6 +18,9 @@ type MapboxMapProps = {
 export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
   ({ setPlace }) => {
     const { cameraRef, cameraApi } = useCameraApi();
+
+    const userLocation = useGeolocation();
+
     const onMarkerPress = useCallback(
       (coordinates: CoordsArr) => {
         setPlace({});
@@ -23,12 +29,19 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
       [setPlace, cameraApi],
     );
 
+    const onMyLocationPress = useCallback(
+      (coordinates: CoordsArr) => {
+        cameraApi.centeringByCoordinate(coordinates);
+      },
+      [cameraApi],
+    );
+
     const onEmptyMapPress = useCallback(() => {
       setPlace(null);
     }, [setPlace]);
 
     return (
-     <Layout showTime>
+      <Layout showTime>
         <MapboxGL.MapView
           style={styles.map}
           styleURL={mapboxStylesUrl}
@@ -51,7 +64,12 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
             style={stylesFor3d}
           />
           <PlaceMarkersLayer onMarkerPress={onMarkerPress} />
+          <UserLocationLayer userLocation={userLocation} />
         </MapboxGL.MapView>
+        <MyLocationButton
+          onMyLocationPress={onMyLocationPress}
+          userLocation={userLocation}
+        />
       </Layout>
     );
   },

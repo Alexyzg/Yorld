@@ -10,6 +10,7 @@ import { MapScreen } from '../MapScreen';
 import { PlaceDetailScreen } from '../PlaceDetailScreen/PlaceDetailScreen';
 import { GridScreen } from '../GridScreen/GridScreen';
 import { TimelineScreen } from '../TimelineScreen/TimelineScreen';
+import { RequestSettingsScreen } from '../RequestSettngsScreen';
 
 const Tabs = AnimatedTabBarNavigator();
 const Stack = createStackNavigator();
@@ -45,6 +46,10 @@ const MainStackNavigator = () => (
   <Stack.Navigator initialRouteName={Paths.Map} headerMode="none">
     <Stack.Screen name={Paths.Map} component={MapScreen} />
     <Stack.Screen name={Paths.Place} component={PlaceDetailScreen} />
+    <Stack.Screen
+      name={Paths.RequestLocation}
+      component={RequestSettingsScreen}
+    />
   </Stack.Navigator>
 );
 
