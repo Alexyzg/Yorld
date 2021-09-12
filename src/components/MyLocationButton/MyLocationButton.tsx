@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { TouchableHighlight, StyleSheet, Linking } from 'react-native';
+import { TouchableHighlight, StyleSheet } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import { ORANGE, GRAY, WHITE, TEAL } from '../../assets/colors';
@@ -11,18 +11,18 @@ import {
 import { RESULTS } from 'react-native-permissions';
 import { useNavigation } from '@react-navigation/core';
 import { Paths } from '../../navigation/paths.types';
+import { useGeolocation } from '../../hooks/useGeolocation';
 
 const ICON_SIZE = 25;
 
 type MyLocationButtonProps = {
   onMyLocationPress: (coordinates: CoordsArr) => void;
-  userLocation: CoordsArr;
 };
 
 export const MyLocationButton: React.FC<MyLocationButtonProps> = React.memo(
-  ({ onMyLocationPress, userLocation }) => {
+  ({ onMyLocationPress }) => {
     const { navigate } = useNavigation();
-    const [lat, lng] = userLocation;
+    const [lat, lng] = useGeolocation();
 
     const goToMyLocation = useCallback(() => {
       onMyLocationPress([lng, lat]);
@@ -30,7 +30,6 @@ export const MyLocationButton: React.FC<MyLocationButtonProps> = React.memo(
 
     const onButtonPress = useCallback(async () => {
       await checkPermission().then(resp => {
-        console.log(resp)
         if (resp === RESULTS.BLOCKED) {
           navigate(Paths.RequestLocation);
         } else if (resp === RESULTS.DENIED) {

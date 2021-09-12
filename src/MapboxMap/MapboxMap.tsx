@@ -1,13 +1,11 @@
-import MapboxGL from '@react-native-mapbox-gl/maps';
 import React, { useCallback } from 'react';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 import { CoordsArr } from '../types';
 import { useCameraApi } from './hooks/cameraApi.hooks';
 import { stylesFor3d, styles, mapboxStylesUrl } from './MapboxMap.styles';
 import { PlaceMarkersLayer } from './PlaceMarkersLayer';
 import { Layout } from '../Layout/Layout';
-import { UserLocationLayer } from './UserLocationLayer';
 import { MyLocationButton } from '../components/MyLocationButton/MyLocationButton';
-import { useGeolocation } from '../hooks/useGeolocation';
 
 export const centerVilnius: CoordsArr = [25.279652, 54.687157];
 
@@ -18,8 +16,6 @@ type MapboxMapProps = {
 export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
   ({ setPlace }) => {
     const { cameraRef, cameraApi } = useCameraApi();
-
-    const userLocation = useGeolocation();
 
     const onMarkerPress = useCallback(
       (coordinates: CoordsArr) => {
@@ -64,13 +60,9 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
             style={stylesFor3d}
           />
           <PlaceMarkersLayer onMarkerPress={onMarkerPress} />
-          <UserLocationLayer userLocation={userLocation} />
-          {/*<MapboxGL.UserLocation androidRenderMode={'normal'} />*/}
+          <MapboxGL.UserLocation androidRenderMode={'normal'} animated />
         </MapboxGL.MapView>
-        <MyLocationButton
-          onMyLocationPress={onMyLocationPress}
-          userLocation={userLocation}
-        />
+        <MyLocationButton onMyLocationPress={onMyLocationPress} />
       </Layout>
     );
   },
