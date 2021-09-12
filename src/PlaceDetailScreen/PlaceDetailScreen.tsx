@@ -1,9 +1,17 @@
 // TODO: refactoring
 import React, { useCallback, useEffect, useState } from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  Text,
+  Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { colorsFromUrl } from 'react-native-dominant-color';
-import { Cross } from '../Cross';
+import { Cross } from './Cross';
 import { GridImageView } from '../GridImageView/GridImageViewer';
 
 const mockedImage =
@@ -25,27 +33,10 @@ const SIZES = {
   WINDOW_HEIGHT: DeviceWindow.height,
 
   //detail screens
-  DETAILS_HORIZONTAL_MARGIN: 12,
+  DETAILS_HORIZONTAL_MARGIN: 4,
 };
 
 const blockBackground = 'rgba(252,252,252,0.78)';
-
-const ImageBlockStyle = {
-  borderBottomLeftRadius: 20,
-  borderBottomRightRadius: 20,
-  backgroundColor: blockBackground,
-  width: SIZES.WINDOW_WIDTH - SIZES.DETAILS_HORIZONTAL_MARGIN * 2,
-  height: 160,
-};
-
-const ImageBlockStyle2 = {
-  borderRadius: 20,
-  backgroundColor: blockBackground,
-  width: SIZES.WINDOW_WIDTH - SIZES.DETAILS_HORIZONTAL_MARGIN * 2,
-  height: 160,
-  marginHorizontal: SIZES.DETAILS_HORIZONTAL_MARGIN,
-  marginTop: 10,
-};
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -107,6 +98,37 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingVertical: 30,
   },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#FF9161',
+    padding: 6,
+    margin: 10,
+    marginBottom: 20,
+    borderRadius: 40,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18
+  },
+  contentContainer: {
+    flex: 1,
+  },
+  bottomBlock: {
+    borderRadius: 20,
+    backgroundColor: blockBackground,
+    width: SIZES.WINDOW_WIDTH - SIZES.DETAILS_HORIZONTAL_MARGIN * 2,
+    height: 160,
+    marginHorizontal: SIZES.DETAILS_HORIZONTAL_MARGIN,
+    marginTop: 10,
+  },
+  topBlock: {
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    backgroundColor: blockBackground,
+    width: SIZES.WINDOW_WIDTH - SIZES.DETAILS_HORIZONTAL_MARGIN * 2,
+    height: 160,
+  }
 });
 
 const ActionPanel: React.FC<{
@@ -146,13 +168,18 @@ export const PlaceDetailScreen: React.FC = React.memo(props => {
               source={{ uri: mockedImage }}
               style={{ ...styles.image, height: 300 }}
             />
-            <View style={ImageBlockStyle} />
+            <View style={styles.topBlock}>
+              <View style={styles.contentContainer}></View>
+              <TouchableOpacity style={styles.button} onPress={() => {}}>
+                <Text style={styles.buttonText}>PLAN FOR FUTURE</Text>
+              </TouchableOpacity>
+            </View>
           </View>
           <ActionPanel />
           <View style={styles.imageGalleryBlock}>
             <GridImageView data={imageList} heightOfGridImage={90} />
           </View>
-          <View style={ImageBlockStyle2} />
+          <View style={styles.bottomBlock} />
         </View>
       </ScrollView>
     </SecondaryScreen>
