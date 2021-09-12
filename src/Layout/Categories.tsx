@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import Category from '../Category/Category';
+import { Category } from '../Category/Category';
 
 const data1 = [
   { id: 8, title: 'Today' },
@@ -26,7 +26,7 @@ const data2 = [
   { id: 11, title: 'Museum', color: '#56549E' },
 ];
 
-export const Categories = ({ showTime=false }) => (
+export const Categories = ({ showTime = false }) => (
   <>
     <Category
       itemText={'title'}
@@ -54,6 +54,7 @@ export const Categories = ({ showTime=false }) => (
     ) : null}
   </>
 );
+
 const styles = StyleSheet.create({
   category1Style: {
     backgroundColor: 'transparent',

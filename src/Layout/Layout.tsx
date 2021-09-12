@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Categories } from './Categories';
+import { Children } from '../types';
 
 const HEADER_HEIGHT = 80;
 
@@ -11,24 +12,31 @@ const MapHeader = () => (
   </View>
 );
 
-const MapFilter = ({ showTime }) => (
+const MapFilter = ({ showTime }: { showTime: boolean }) => (
   <View style={styles.overlayContainer}>
     <LinearGradient
       colors={['#fff', 'transparent']}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1.2 }}
-      style={{ height: showTime ? 90:40, width: '100%' }}
+      style={{ height: showTime ? 90 : 40, width: '100%' }}
     />
     <Categories showTime={showTime} />
   </View>
 );
 
-export const Layout = ({ children, showTime=false }) => (
-  <>
-   <MapHeader />
-    {children}
-    <MapFilter showTime={showTime} />
-  </>
+export type LayoutProps = {
+  children: Children;
+  showTime?: boolean;
+};
+
+export const Layout: React.FC<LayoutProps> = React.memo(
+  ({ children, showTime = false }) => (
+    <>
+      <MapHeader />
+      {children}
+      <MapFilter showTime={showTime} />
+    </>
+  ),
 );
 
 const styles = StyleSheet.create({

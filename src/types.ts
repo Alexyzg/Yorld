@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 type Lng = number;
 type Lat = number;
 
@@ -6,3 +8,5 @@ export type CoordsObj = {
   longitude: Lng;
   latitude: Lat;
 };
+
+export type Children = JSX.Element | ReactNode | null | (JSX.Element | null)[];

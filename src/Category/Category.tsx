@@ -1,5 +1,11 @@
-import React, {  Component } from 'react';
-import { Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import {
+  Text,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet,
+  ViewStyle,
+} from 'react-native';
 
 // Third party imports - icon
 import EntypoIcons from 'react-native-vector-icons/Entypo';
@@ -23,196 +29,222 @@ const iconSets = {
 };
 
 //type text in item category
-export const typeText = {
-  upper: 'UPPER',
-  lower: 'LOWER',
-  capitalize: 'CAPITALIZE',
+export const TypeText = {
+  UPPER: 'UPPER',
+  LOWER: 'LOWER',
+  CAPITALIZE: 'CAPITALIZE',
 };
 
-class Category extends Component {
-  static defaultProps = {
-    data: [], //data category default
-    itemText: '',
-    imageData: [], //imageData category default
-    colorTextDefault: '#f5f3f4',
-    colorTextSelected: '#000000',
-    colorItemDefault: 'rgba(255,255,255,0.2)',
-    colorItemSelected: '#FF4E50',
-    colorIconDefault: '#900', //Color icon selected
-    colorIconSelected: '#FFF', //Color icon selected
-    bounces: false,
-    indexSelected: 0, //Item selected default 0
-    iconSet: 'FontAwesome', //Type icon default
-    iconSize: 30,
-  };
+export type ItemCategory = {
+  id: number | string;
+  color?: string;
+  title?: string;
+  isSelected?: boolean;
+};
 
-  constructor(props) {
-    super(props);
-    let arrCategory = [];
+export type TextType = 'UPPER' | 'LOWER' | 'CAPITALIZE';
 
-    try {
-      if (this.props.imageData.length === 0) {
-        this.props.data.map((item, index) => {
-          let newObject;
-          index === this.props.indexSelected
-            ? (newObject = Object.assign({ isSelected: true }, item))
-            : (newObject = Object.assign({ isSelected: false }, item));
-          arrCategory.push(newObject);
-        });
-      } else {
-        this.props.imageData.map((item, index) => {
-          let newObject;
-          const nameImage = this.props.imageData[index];
-          index === this.props.indexSelected
-            ? (newObject = Object.assign({
-                index,
-                name: nameImage,
-                isSelected: true,
-              }))
-            : (newObject = Object.assign({
-                index,
-                name: nameImage,
-                isSelected: false,
-              }));
-          arrCategory.push(newObject);
-        });
-      }
+export type CategoryProps = {
+  data: ItemCategory[];
+  itemText: string;
+  imageData?: any[];
+  colorTextDefault: string;
+  colorTextSelected: string;
+  colorItemDefault: string;
+  colorItemSelected: string;
+  colorIconDefault?: string;
+  colorIconSelected?: string;
+  bounces?: boolean;
+  indexSelected?: number;
+  iconSet?: string;
+  iconSize?: number;
+  style?: ViewStyle;
+  itemStyles?: ViewStyle;
+  textType?: TextType;
+  itemSelected?: (item: ItemCategory) => void;
+};
 
-      this.state = {
-        data: arrCategory,
-        indexSelected: this.props.indexSelected,
-      };
-    } catch (error) {
-      console.error('Data not set - Please set data for Category component');
-    }
-  }
+const defaultData = {
+  data: [],
+  itemText: '',
+  imageData: [],
+  colorTextDefault: '#f5f3f4',
+  colorTextSelected: '#000000',
+  colorItemDefault: 'rgba(255,255,255,0.2)',
+  colorItemSelected: '#FF4E50',
+  colorIconDefault: '#900',
+  colorIconSelected: '#FFF',
+  bounces: false,
+  indexSelected: 0,
+  iconSet: 'FontAwesome',
+  iconSize: 30,
+};
 
-  componentDidMount() {
-    let category = this.state.data[this.state.indexSelected];
-    let onPress = this.props.itemSelected;
-    typeof onPress === 'function' && onPress(category);
-  }
+export const Category: React.FC<CategoryProps> = React.memo(
+  (props = defaultData) => {
+    const {
+      data,
+      itemText,
+      imageData,
+      colorTextDefault,
+      colorTextSelected,
+      colorItemDefault,
+      colorItemSelected,
+      colorIconDefault,
+      colorIconSelected,
+      bounces,
+      indexSelected,
+      iconSet,
+      iconSize,
+      style,
+      itemStyles,
+      textType,
+      itemSelected,
+    } = props;
+    const [categoriesData, setCategoriesData] = useState<ItemCategory[]>([]);
 
-  //action when click item
-  handleItemCategoryClick(category, rowID) {
-    category.isSelected = !category.isSelected;
-    const dataClone = this.state.data;
+    useEffect(() => {
+      const adaptedData =
+        !imageData || imageData.length === 0
+          ? data.reduce(
+              (acc, item, index) => [
+                ...acc,
+                { ...item, isSelected: index === indexSelected },
+              ],
+              [] as ItemCategory[],
+            )
+          : imageData.reduce(
+              (acc, item, index) => [
+                ...acc,
+                {
+                  index,
+                  name: imageData[index],
+                  isSelected: index === indexSelected,
+                },
+              ],
+              [],
+            );
+      setCategoriesData(adaptedData);
+    }, [setCategoriesData, data, imageData, indexSelected]);
 
-    const unSelected = dataClone[this.state.indexSelected];
-    unSelected.isSelected = !unSelected.isSelected;
+    const handleItemCategoryClick = useCallback(
+      (item, index) => {
+        setCategoriesData(
+          categoriesData.map((category, categoryIndex) => ({
+            ...category,
+            isSelected: categoryIndex === index,
+          })),
+        );
 
-    dataClone[this.state.indexSelected] = unSelected;
-    dataClone[rowID] = category;
-
-    this.setState({
-      data: dataClone,
-      indexSelected: rowID,
-    });
-
-    //call back item selected
-    let onPress = this.props.itemSelected;
-    typeof onPress === 'function' && onPress(category);
-  }
-
-  renderTextCategory(text) {
-    const type = typeText[this.props.textType];
-    text = text.toString();
-    switch (type) {
-      case 'UPPER':
-        return text.toUpperCase();
-        break;
-      case 'LOWER':
-        return text.toLowerCase();
-        break;
-      case 'CAPITALIZE':
-        return text.charAt(0).toUpperCase() + text.slice(1);
-      default:
-        return text;
-    }
-  }
-
-  //render Item
-  renderItemCategory({ item, index }) {
-    const colorTextSelected = item.isSelected
-      ? this.props.colorTextSelected
-      : this.props.colorTextDefault;
-    const colorItemSelected = item.isSelected
-      ? this.props.colorItemSelected
-      : item.color || this.props.colorItemDefault;
-    const colorIconSelected = item.isSelected
-      ? this.props.colorIconSelected
-      : this.props.colorIconDefault;
-
-    if (this.props.imageData.length !== 0) {
-      Icon = iconSets[this.props.iconSet];
-    }
-
-    return (
-      <TouchableOpacity
-        style={[
-          styles.itemStyles,
-          this.props.itemStyles,
-          { backgroundColor: colorItemSelected },
-        ]}
-        onPress={this.handleItemCategoryClick.bind(this, item, index)}
-      >
-        {this.props.imageData.length != 0 && (
-          <Icon
-            name={item.name}
-            size={this.props.iconSize}
-            color={colorIconSelected}
-          />
-        )}
-        {this.props.imageData.length == 0 && (
-          <Text style={[styles.textItemStyles, { color: colorTextSelected }]}>
-            {this.renderTextCategory(item[this.props.itemText])}
-          </Text>
-        )}
-      </TouchableOpacity>
+        if (typeof itemSelected === 'function') {
+          itemSelected(item);
+        }
+      },
+      [categoriesData, itemSelected],
     );
-  }
 
-  render() {
+    const renderTextCategory = useCallback(
+      text => {
+        text = text.toString();
+        switch (textType) {
+          case TypeText.UPPER:
+            return text.toUpperCase();
+          case TypeText.LOWER:
+            return text.toLowerCase();
+          case TypeText.CAPITALIZE:
+            return text.charAt(0).toUpperCase() + text.slice(1);
+          default:
+            return text;
+        }
+      },
+      [textType],
+    );
+
+    const renderItemCategory = useCallback(
+      ({ item, index }) => {
+        const { isSelected } = item;
+        const textColor = isSelected ? colorTextSelected : colorTextDefault;
+        const itemColor = isSelected
+          ? colorItemSelected
+          : item.color || colorItemDefault;
+        const iconColor = isSelected ? colorIconSelected : colorIconDefault;
+        let Icon;
+        if (imageData && imageData.length !== 0) {
+          // @ts-ignore
+          Icon = iconSets[iconSet];
+        }
+        return (
+          <TouchableOpacity
+            style={[
+              styles.itemStyles,
+              itemStyles,
+              { backgroundColor: itemColor },
+            ]}
+            onPress={() => handleItemCategoryClick(item, index)}
+          >
+            {Icon && (
+              <Icon name={item.name} size={iconSize} color={iconColor} />
+            )}
+            {!Icon && (
+              <Text style={[styles.textItemStyles, { color: textColor }]}>
+                {renderTextCategory(item[itemText])}
+              </Text>
+            )}
+          </TouchableOpacity>
+        );
+      },
+      [
+        colorTextSelected,
+        colorTextDefault,
+        colorItemSelected,
+        colorItemDefault,
+        colorIconSelected,
+        colorIconDefault,
+        imageData,
+        itemStyles,
+        iconSize,
+        renderTextCategory,
+        itemText,
+        iconSet,
+        handleItemCategoryClick,
+      ],
+    );
+
     return (
       <FlatList
-        style={[styles.categoryStyles, this.props.style]}
+        style={[styles.categoryStyles, style]}
         contentContainerStyle={styles.flatListStyles}
         horizontal
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        bounces={this.props.bounces}
-        keyExtractor={(item, index) => index}
-        renderItem={this.renderItemCategory.bind(this)}
-        data={this.state.data}
+        bounces={bounces}
+        keyExtractor={(item, index) => String(index)}
+        renderItem={renderItemCategory}
+        data={categoriesData}
       />
     );
-  }
-}
-
-export default Category;
+  },
+);
 
 const styles = StyleSheet.create({
   categoryStyles: {
     backgroundColor: '#000',
   },
-
   flatListStyles: {
     justifyContent: 'center',
     alignItems: 'center',
     padding: 8,
-    paddingRight: 0
+    paddingRight: 0,
   },
-
   itemStyles: {
     padding: 8,
     marginRight: 8,
     borderRadius: 5,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-
   textItemStyles: {
     textAlign: 'center',
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 });
