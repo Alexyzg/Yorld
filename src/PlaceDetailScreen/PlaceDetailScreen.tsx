@@ -1,5 +1,6 @@
 // TODO: refactoring
 import React, { useCallback, useEffect, useState } from 'react';
+import Androw from 'react-native-androw';
 import {
   Text,
   Dimensions,
@@ -33,7 +34,8 @@ const SIZES = {
   WINDOW_HEIGHT: DeviceWindow.height,
 
   //detail screens
-  DETAILS_HORIZONTAL_MARGIN: 4,
+  DETAILS_HORIZONTAL_MARGIN: 8,
+  DETAILS_BETWEEN_MARGIN: 14,
 };
 
 const blockBackground = 'rgba(252,252,252,0.78)';
@@ -79,10 +81,20 @@ const styles = StyleSheet.create({
   action: {
     borderRadius: 20,
     backgroundColor: blockBackground,
-    width: (SIZES.WINDOW_WIDTH - SIZES.DETAILS_HORIZONTAL_MARGIN * 5) / 4,
-    height: (SIZES.WINDOW_WIDTH - SIZES.DETAILS_HORIZONTAL_MARGIN * 5) / 4,
-    marginLeft: SIZES.DETAILS_HORIZONTAL_MARGIN,
+    width:
+      (SIZES.WINDOW_WIDTH -
+        SIZES.DETAILS_HORIZONTAL_MARGIN * 2 -
+        SIZES.DETAILS_BETWEEN_MARGIN * 3) /
+      4,
+    height:
+      (SIZES.WINDOW_WIDTH -
+        SIZES.DETAILS_HORIZONTAL_MARGIN * 2 -
+        SIZES.DETAILS_BETWEEN_MARGIN * 3) /
+      4,
+    marginLeft: SIZES.DETAILS_BETWEEN_MARGIN,
     marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   actionPanel: {
     flex: 1,
@@ -109,7 +121,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 18
+    fontSize: 18,
   },
   contentContainer: {
     flex: 1,
@@ -128,17 +140,70 @@ const styles = StyleSheet.create({
     backgroundColor: blockBackground,
     width: SIZES.WINDOW_WIDTH - SIZES.DETAILS_HORIZONTAL_MARGIN * 2,
     height: 160,
-  }
+  },
+  actionIcon: {
+    height: '90%',
+    width: '90%',
+    paddingTop: 0,
+  },
+  shadow: {
+    shadowColor: '#0a0808',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 5,
+    height: '55%',
+    width: '55%',
+    marginTop: 3,
+    marginLeft: 3,
+  },
 });
 
 const ActionPanel: React.FC<{
   images: string[];
 }> = React.memo(() => (
   <View style={styles.actionPanel}>
-    <View style={styles.action} />
-    <View style={styles.action} />
-    <View style={styles.action} />
-    <View style={styles.action} />
+    <View
+      style={{ ...styles.action, marginLeft: SIZES.DETAILS_HORIZONTAL_MARGIN }}
+    >
+      <Androw style={{ ...styles.shadow, marginBottom: 2, marginTop: -4 }}>
+        <Image
+          style={{ ...styles.actionIcon }}
+          source={require('../assets/svg/planet.png')}
+        />
+      </Androw>
+      <Text>Website</Text>
+    </View>
+    <View style={styles.action}>
+      <Androw style={styles.shadow}>
+        <Image
+          style={styles.actionIcon}
+          source={require('../assets/svg/map.png')}
+        />
+      </Androw>
+      <Text>Map</Text>
+    </View>
+    <View style={styles.action}>
+      <Androw style={styles.shadow}>
+        <Image
+          style={styles.actionIcon}
+          source={require('../assets/svg/marker.png')}
+        />
+      </Androw>
+      <Text>Navigate</Text>
+    </View>
+    <View style={styles.action}>
+      <Androw style={styles.shadow}>
+        <Image
+          style={styles.actionIcon}
+          source={require('../assets/svg/share.png')}
+        />
+      </Androw>
+      <Text>Share</Text>
+    </View>
   </View>
 ));
 
@@ -160,7 +225,7 @@ export const PlaceDetailScreen: React.FC = React.memo(props => {
 
   return (
     <SecondaryScreen>
-      <ScrollView style={{ ...styles.wrapper, backgroundColor: color }}>
+      <ScrollView style={{ ...styles.wrapper, backgroundColor: color + 'bb' }}>
         <View>
           <View style={styles.upperBar} />
           <View style={styles.blockWrapper}>
@@ -169,7 +234,42 @@ export const PlaceDetailScreen: React.FC = React.memo(props => {
               style={{ ...styles.image, height: 300 }}
             />
             <View style={styles.topBlock}>
-              <View style={styles.contentContainer}></View>
+              <View style={styles.contentContainer}>
+                <View>
+                  <View
+                    style={{
+                      paddingLeft: 7,
+                      paddingTop: 5,
+                      flexDirection: 'row',
+                    }}
+                  >
+                    <Image
+                      style={{ width: 31 }}
+                      source={require('./park.png')}
+                    />
+                    <Text
+                      style={{
+                        fontSize: 17,
+                        fontWeight: 'bold',
+                        color: '#666666',
+                        paddingTop: 8,
+                      }}
+                    >
+                      Konstitucijos pr. 29
+                    </Text>
+                  </View>
+                </View>
+                <Text
+                  style={{
+                    marginTop: -8,
+                    fontSize: 22,
+                    fontWeight: 'bold',
+                    paddingLeft: 12,
+                  }}
+                >
+                  Children's playground
+                </Text>
+              </View>
               <TouchableOpacity style={styles.button} onPress={() => {}}>
                 <Text style={styles.buttonText}>PLAN FOR FUTURE</Text>
               </TouchableOpacity>
