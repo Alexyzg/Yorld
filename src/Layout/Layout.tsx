@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from "react-native";
 import LinearGradient from 'react-native-linear-gradient';
 import { Categories } from './Categories';
 import { Children } from '../types';
@@ -15,7 +15,7 @@ const MapHeader = () => (
 const MapFilter = ({ showTime }: { showTime: boolean }) => (
   <View style={styles.overlayContainer}>
     <LinearGradient
-      colors={['#fff', 'transparent']}
+      colors={['#ffffff', '#ffffff00']}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1.2 }}
       style={{ height: showTime ? 90 : 40, width: '100%' }}
@@ -59,6 +59,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     height: 80,
     width: '100%',
-    paddingTop: 40,
+    paddingTop: Platform.OS === 'android' ? 40 : 10,
   },
 });

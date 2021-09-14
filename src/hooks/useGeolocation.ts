@@ -24,7 +24,6 @@ export const useGeolocation = () => {
 
   useEffect(() => {
     if (locationGranted) {
-      console.log(locationGranted);
       const watchId = Geolocation.watchPosition(
         ({ coords: { latitude, longitude } }) => {
           setPosition([latitude, longitude]);
