@@ -12,7 +12,6 @@ export const checkPermission = async () => {
 
 export const requestLocationPermission = async () => {
   let permissionStatus = await checkPermission();
-  console.log(permissionStatus);
   if (permissionStatus === RESULTS.DENIED) {
     permissionStatus = await request(permission);
   }

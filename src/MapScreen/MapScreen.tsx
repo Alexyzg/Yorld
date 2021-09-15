@@ -2,26 +2,27 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import { MapboxMap } from '../MapboxMap';
 import { PlaceCardOnMap } from './PlaceCardOnMap';
-import { useFireBase } from '../../firebase/FirebaseExample';
+import { usePlaces } from '../hooks/usePlaces';
 import { requestLocationPermission } from '../hooks/useRequestPermission';
+import { Place } from '../types';
 
 export const MapScreen: React.FC = () => {
-  const [place, setPlace] = useState<null | object>();
+  const [place, setPlace] = useState<undefined | Place>();
 
-  useFireBase();
+  const places = usePlaces();
 
-  const fetchData = useCallback(async () => {
+  const requestPermission = useCallback(async () => {
     await requestLocationPermission();
   }, []);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    requestPermission();
+  }, [requestPermission]);
 
   return (
     <SafeAreaView>
-      {place && <PlaceCardOnMap />}
-      <MapboxMap setPlace={setPlace} />
+      {place && <PlaceCardOnMap place={place} />}
+      <MapboxMap setPlace={setPlace} places={places} />
     </SafeAreaView>
   );
 };

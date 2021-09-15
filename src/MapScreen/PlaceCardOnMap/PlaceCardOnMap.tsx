@@ -4,26 +4,40 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import Androw from 'react-native-androw';
 import { useNavigation } from '@react-navigation/core';
 import { Paths } from '../../navigation/paths.types';
+import { Place } from '../../types';
 
-export const PlaceCardOnMap: React.FC = React.memo(() => {
-  const { navigate } = useNavigation();
-  return (
-    <Pressable style={styles.wrapper} onPress={() => navigate(Paths.Place)}>
-      <Androw style={styles.shadow}>
-        <Image
-          style={styles.image}
-          source={{
-            uri: 'https://fastly.4sqi.net/img/general/699x268/1425885_EwQcMnKdiwbVywGpm5N0qT5DNwegdjEkm7ynqObMLUA.jpg',
-          }}
-        />
-      </Androw>
-      <View style={styles.infoWrapper}>
-        <Text style={styles.title}>Children's playground</Text>
-        <Text style={styles.address}>Konstitucijos pr. 29</Text>
-      </View>
-    </Pressable>
-  );
-});
+type PlaceCardOnMapType = {
+  place: Place;
+};
+
+export const PlaceCardOnMap: React.FC<PlaceCardOnMapType> = React.memo(
+  ({
+    place: {
+      previewImage,
+      type,
+      location: { address },
+    },
+  }) => {
+    const { navigate } = useNavigation();
+
+    return (
+      <Pressable style={styles.wrapper} onPress={() => navigate(Paths.Place)}>
+        <Androw style={styles.shadow}>
+          <Image
+            style={styles.image}
+            source={{
+              uri: previewImage,
+            }}
+          />
+        </Androw>
+        <View style={styles.infoWrapper}>
+          <Text style={styles.title}>{type}</Text>
+          <Text style={styles.address}>{address}</Text>
+        </View>
+      </Pressable>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   wrapper: {

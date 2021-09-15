@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import { CoordsArr } from '../types';
+import { CoordsArr, Place } from '../types';
 import { useCameraApi } from './hooks/cameraApi.hooks';
 import { stylesFor3d, styles, mapboxStylesUrl } from './MapboxMap.styles';
 import { PlaceMarkersLayer } from './PlaceMarkersLayer';
@@ -10,19 +10,31 @@ import { MyLocationButton } from '../components/MyLocationButton/MyLocationButto
 export const centerVilnius: CoordsArr = [25.279652, 54.687157];
 
 type MapboxMapProps = {
-  setPlace: (place: object | null) => void;
+  setPlace: (place: Place | undefined) => void;
+  places: Place[] | undefined;
 };
 
 export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
-  ({ setPlace }) => {
+  ({ setPlace, places }) => {
     const { cameraRef, cameraApi } = useCameraApi();
 
     const onMarkerPress = useCallback(
       (coordinates: CoordsArr) => {
-        setPlace({});
+        //TODO change find place or set place by ID
+        const place =
+          places &&
+          places.find(
+            ({
+              location: {
+                geo: { lng },
+              },
+            }) => coordinates[0].toFixed(5) === lng.toFixed(5),
+          );
+
+        setPlace(place);
         cameraApi.centeringByCoordinate(coordinates);
       },
-      [setPlace, cameraApi],
+      [setPlace, cameraApi, places],
     );
 
     const onMyLocationPress = useCallback(
@@ -33,8 +45,25 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
     );
 
     const onEmptyMapPress = useCallback(() => {
-      setPlace(null);
+      setPlace(undefined);
     }, [setPlace]);
+
+    const coordinatesOfPlaces: CoordsArr[] | undefined = useMemo(
+      () =>
+        places &&
+        places.reduce(
+          (
+            acc,
+            {
+              location: {
+                geo: { lat, lng },
+              },
+            },
+          ) => [...acc, [lng, lat]],
+          [] as CoordsArr[],
+        ),
+      [places],
+    );
 
     return (
       <Layout showTime>
@@ -59,7 +88,10 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
             sourceLayerID="building"
             style={stylesFor3d}
           />
-          <PlaceMarkersLayer onMarkerPress={onMarkerPress} />
+          <PlaceMarkersLayer
+            onMarkerPress={onMarkerPress}
+            coordinatesOfPlaces={coordinatesOfPlaces}
+          />
           <MapboxGL.UserLocation androidRenderMode={'normal'} animated />
         </MapboxGL.MapView>
         <MyLocationButton onMyLocationPress={onMyLocationPress} />

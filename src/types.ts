@@ -10,3 +10,21 @@ export type CoordsObj = {
 };
 
 export type Children = JSX.Element | ReactNode | null | (JSX.Element | null)[];
+
+enum PlacesTypes {
+  Park = 'Park',
+}
+
+export type Place = {
+  id: string;
+  previewImage: string;
+  images: string[];
+  type: PlacesTypes;
+  location: {
+    geo: { lat: Lat; lng: Lng };
+    address: string;
+  };
+  title: string;
+  description: string | '';
+  schedule: string | '';
+};
