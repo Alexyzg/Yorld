@@ -4,7 +4,6 @@ import { CoordsArr, Place } from '../types';
 import { useCameraApi } from './hooks/cameraApi.hooks';
 import { stylesFor3d, styles, mapboxStylesUrl } from './MapboxMap.styles';
 import { PlaceMarkersLayer } from './PlaceMarkersLayer';
-import { Layout } from '../Layout/Layout';
 import { MyLocationButton } from '../components/MyLocationButton/MyLocationButton';
 
 export const centerVilnius: CoordsArr = [25.279652, 54.687157];
@@ -66,7 +65,7 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
     );
 
     return (
-      <Layout showTime>
+      <>
         <MapboxGL.MapView
           style={styles.map}
           styleURL={mapboxStylesUrl}
@@ -95,7 +94,7 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
           <MapboxGL.UserLocation androidRenderMode={'normal'} animated />
         </MapboxGL.MapView>
         <MyLocationButton onMyLocationPress={onMyLocationPress} />
-      </Layout>
+      </>
     );
   },
 );

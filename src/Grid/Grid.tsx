@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, SafeAreaView } from 'react-native';
+import { StyleSheet, View, } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import RNMasonryScroll from 'react-native-masonry-scrollview';
 import Image from 'react-native-scalable-image';
 import { useResponsiveWidth } from 'react-native-responsive-dimensions';
-import { Layout } from '../Layout/Layout';
 
 const { createAnimatableComponent } = Animatable;
 
@@ -85,36 +84,28 @@ const images = [
   'https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
 ];
 
-export const GridScreen = () => {
+export const Grid = () => {
   const imageWidth: number = useResponsiveWidth(50) - 20;
 
   return (
-    <SafeAreaView>
-      <Layout>
-        <RNMasonryScroll
-          removeClippedSubviews={true}
-          columns={2}
-          evenColumnStyle={styles.evenColumnStyle}
-          oddColumnStyle={styles.oddColumnStyleVertical}
-          horizontal={false}
+    <RNMasonryScroll
+      removeClippedSubviews={true}
+      columns={2}
+      evenColumnStyle={styles.evenColumnStyle}
+      oddColumnStyle={styles.oddColumnStyleVertical}
+      horizontal={false}
+    >
+      {images.map((image, imageIndex) => (
+        <AnimatableView
+          key={image + imageIndex}
+          animation={'fadeInUp'}
+          delay={100 * imageIndex}
+          style={styles.imageContainer}
         >
-          {images.map((image, imageIndex) => (
-            <AnimatableView
-              key={image + imageIndex}
-              animation={'fadeInUp'}
-              delay={100 * imageIndex}
-              style={styles.imageContainer}
-            >
-              <Image
-                source={{ uri: image }}
-                width={imageWidth}
-                key={imageIndex}
-              />
-            </AnimatableView>
-          ))}
-        </RNMasonryScroll>
-      </Layout>
-    </SafeAreaView>
+          <Image source={{ uri: image }} width={imageWidth} key={imageIndex} />
+        </AnimatableView>
+      ))}
+    </RNMasonryScroll>
   );
 };
 

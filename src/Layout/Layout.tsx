@@ -1,14 +1,26 @@
 import React from 'react';
-import { Platform, StyleSheet, Text, View } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Categories } from './Categories';
 import { Children } from '../types';
 
 const HEADER_HEIGHT = 80;
 
-const MapHeader = () => (
+export const MapHeader = ({ isGrid, toggleView }) => (
   <View style={styles.header}>
     <Text style={styles.headerText}>Vilnius</Text>
+    <TouchableOpacity
+      style={{ height: 30, width: 30, backgroundColor: 'blue' }}
+      onPress={() => toggleView(!isGrid)}
+    >
+      <View style={{}} />
+    </TouchableOpacity>
   </View>
 );
 
@@ -30,9 +42,9 @@ export type LayoutProps = {
 };
 
 export const Layout: React.FC<LayoutProps> = React.memo(
-  ({ children, showTime = false }) => (
+  ({ children, showTime = false, isGrid, toggleView }) => (
     <>
-      <MapHeader />
+      <MapHeader isGrid={isGrid} toggleView={toggleView} />
       {children}
       <MapFilter showTime={showTime} />
     </>
@@ -51,14 +63,18 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontFamily: 'Roboto',
-    textAlign: 'center',
+    textAlign: 'left',
     fontWeight: 'bold',
-    fontSize: 22,
+    fontSize: 24,
+    paddingLeft: 22,
   },
   header: {
     backgroundColor: '#fff',
     height: 80,
     width: '100%',
     paddingTop: Platform.OS === 'android' ? 40 : 10,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    paddingRight: 30,
   },
 });

@@ -36,7 +36,7 @@ export const Categories = ({ showTime = false }) => (
       itemStyles={styles.item1Styles}
       colorItemDefault={'#fff'}
       colorItemSelected={'#333'}
-      colorTextDefault={'#707070'}
+      colorTextDefault={'#fff'}
       colorTextSelected={'#fff'}
     />
     {showTime ? (

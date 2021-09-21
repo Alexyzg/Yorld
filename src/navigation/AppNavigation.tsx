@@ -12,9 +12,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Paths } from './paths.types';
 import { MapScreen } from '../MapScreen';
 import { PlaceDetailScreen } from '../PlaceDetailScreen/PlaceDetailScreen';
-import { GridScreen } from '../GridScreen/GridScreen';
 import { TimelineScreen } from '../TimelineScreen/TimelineScreen';
 import { RequestSettingsScreen } from '../RequestSettngsScreen';
+import { HomeScreen } from "../HomeScreen";
 
 const Tabs = AnimatedTabBarNavigator();
 const Stack = createStackNavigator();
@@ -73,7 +73,7 @@ export const AppNavigation: React.FC = () => {
   return (
     <NavigationContainer>
       <Tabs.Navigator
-        initialRouteName={Paths.Map}
+        initialRouteName={'Home'}
         tabBarOptions={{
           activeTintColor,
           inactiveTintColor,
@@ -81,16 +81,17 @@ export const AppNavigation: React.FC = () => {
         }}
         appearance={navigatorAppearance}
       >
+          <Tabs.Screen
+              name={'Home'}
+              component={HomeScreen}
+              options={getOptions('home')}
+          />
         <Tabs.Screen
           name={'Map'}
           component={MainStackNavigator}
           options={getOptions('map-marker')}
         />
-        <Tabs.Screen
-          name="Search"
-          component={GridScreen}
-          options={getOptions('search')}
-        />
+
         <Tabs.Screen
           name="Calendar"
           component={TimelineScreen}
