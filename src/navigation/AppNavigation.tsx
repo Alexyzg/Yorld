@@ -14,7 +14,7 @@ import { MapScreen } from '../MapScreen';
 import { PlaceDetailScreen } from '../PlaceDetailScreen/PlaceDetailScreen';
 import { TimelineScreen } from '../TimelineScreen/TimelineScreen';
 import { RequestSettingsScreen } from '../RequestSettngsScreen';
-import { HomeScreen } from "../HomeScreen";
+import { HomeScreen } from '../HomeScreen';
 
 const Tabs = AnimatedTabBarNavigator();
 const Stack = createStackNavigator();
@@ -81,11 +81,11 @@ export const AppNavigation: React.FC = () => {
         }}
         appearance={navigatorAppearance}
       >
-          <Tabs.Screen
-              name={'Home'}
-              component={HomeScreen}
-              options={getOptions('home')}
-          />
+        <Tabs.Screen
+          name={'Home'}
+          component={HomeScreen}
+          options={getOptions('home')}
+        />
         <Tabs.Screen
           name={'Map'}
           component={MainStackNavigator}

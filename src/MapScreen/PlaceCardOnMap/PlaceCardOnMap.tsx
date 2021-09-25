@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 // @ts-ignore
 import Androw from 'react-native-androw';
+// @ts-ignore
+import { getColorFromURL } from 'rn-dominant-color';
 import { useNavigation } from '@react-navigation/core';
 import { Paths } from '../../navigation/paths.types';
 import { Place } from '../../types';
+import { GRAY } from '../../assets/colors';
 
 type PlaceCardOnMapType = {
   place: Place;
 };
 
+type Colors = {
+  primary: string;
+  secondary: string;
+  background: string;
+  detail: string;
+};
+
 export const PlaceCardOnMap: React.FC<PlaceCardOnMapType> = React.memo(
   ({
+    place,
     place: {
       previewImage,
       type,
@@ -19,9 +30,28 @@ export const PlaceCardOnMap: React.FC<PlaceCardOnMapType> = React.memo(
     },
   }) => {
     const { navigate } = useNavigation();
+    const [primaryColor, setPrimaryColor] = useState<string>('#fff');
+    // TODO: Prepare color upfront (for example on Server)
+    const calcColor = useCallback(() => {
+      getColorFromURL(previewImage)
+        .then((colors: Colors) => {
+          setPrimaryColor(colors.primary);
+        })
+        .catch((e: any) => {
+          console.log(e);
+        });
+    }, [previewImage]);
+
+    useEffect(() => {
+      calcColor();
+    }, [calcColor]);
+
+    const navigateToPlace = useCallback(() => {
+      navigate(Paths.Place, { place, primaryColor });
+    }, [navigate, place, primaryColor]);
 
     return (
-      <Pressable style={styles.wrapper} onPress={() => navigate(Paths.Place)}>
+      <Pressable style={styles.wrapper} onPress={navigateToPlace}>
         <Androw style={styles.shadow}>
           <Image
             style={styles.image}
@@ -50,11 +80,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     zIndex: 1,
     flexDirection: 'row',
-    shadowColor: '#171717',
-    shadowOffset: { width: -2, height: 4 },
+    shadowColor: GRAY,
+    shadowOffset: {
+      width: 4,
+      height: 4,
+    },
     shadowOpacity: 1,
-    shadowRadius: 3,
-    elevation: 5,
+    shadowRadius: 5,
+    elevation: 10,
   },
   image: {
     position: 'absolute',
@@ -82,14 +115,14 @@ const styles = StyleSheet.create({
     color: '#B53830',
   },
   shadow: {
-    shadowColor: '#171717',
+    shadowColor: GRAY,
     shadowOffset: {
-      width: 0,
-      height: 5,
+      width: 4,
+      height: 4,
     },
-    shadowOpacity: 0.4,
+    shadowOpacity: 1,
     shadowRadius: 5,
-    elevation: 5,
+    elevation: 10,
     width: 180,
     height: 130,
   },

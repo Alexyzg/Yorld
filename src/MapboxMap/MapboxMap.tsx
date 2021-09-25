@@ -27,7 +27,7 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
               location: {
                 geo: { lng },
               },
-            }) => coordinates[0].toFixed(5) === lng.toFixed(5),
+            }) => coordinates[0].toFixed(4) === lng.toFixed(4),
           );
 
         setPlace(place);

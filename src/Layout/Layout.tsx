@@ -12,7 +12,12 @@ import { Children } from '../types';
 
 const HEADER_HEIGHT = 80;
 
-export const MapHeader = ({ isGrid, toggleView }) => (
+type MapHeaderProps = {
+  isGrid: boolean;
+  toggleView: (value: boolean) => void;
+};
+
+export const MapHeader: React.FC<MapHeaderProps> = ({ isGrid, toggleView }) => (
   <View style={styles.header}>
     <Text style={styles.headerText}>Vilnius</Text>
     <TouchableOpacity
@@ -38,6 +43,8 @@ const MapFilter = ({ showTime }: { showTime: boolean }) => (
 
 export type LayoutProps = {
   children: Children;
+  isGrid: boolean;
+  toggleView: () => void;
   showTime?: boolean;
 };
 

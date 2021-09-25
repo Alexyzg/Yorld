@@ -15,6 +15,18 @@ enum PlacesTypes {
   Park = 'Park',
 }
 
+enum SocialTypes {
+  Phone = 'phone',
+  Url = 'url',
+  Website = 'website',
+  Instagram = 'instagram',
+}
+
+export type Social = {
+  value: string;
+  type: SocialTypes;
+};
+
 export type Place = {
   id: string;
   previewImage: string;
@@ -24,6 +36,8 @@ export type Place = {
     geo: { lat: Lat; lng: Lng };
     address: string;
   };
+  socials: Social[];
+  name: string;
   title: string;
   description: string | '';
   schedule: string | '';

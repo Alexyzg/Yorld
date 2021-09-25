@@ -31,7 +31,6 @@
     "react-native-animated-nav-tab-bar": "^3.1.4",
     "react-native-beautiful-timeline": "0.0.7",
     "react-native-dash": "0.0.11",
-    "react-native-dominant-color": "^1.0.0",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-immersive-bars": "^1.0.4",
     "react-native-linear-gradient": "^2.5.6",
@@ -45,7 +44,8 @@
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^12.1.0",
     "react-native-svg-transformer": "^0.14.3",
-    "react-native-vector-icons": "^8.1.0"
+    "react-native-vector-icons": "^8.1.0",
+    "rn-dominant-color": "^1.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
