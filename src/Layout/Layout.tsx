@@ -44,7 +44,7 @@ const MapFilter = ({ showTime }: { showTime: boolean }) => (
 export type LayoutProps = {
   children: Children;
   isGrid: boolean;
-  toggleView: () => void;
+  toggleView: (value: boolean) => void;
   showTime?: boolean;
 };
 

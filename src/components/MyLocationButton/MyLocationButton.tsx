@@ -1,9 +1,8 @@
 import React, { useCallback } from 'react';
 import { TouchableHighlight, StyleSheet } from 'react-native';
-
 import Icon from 'react-native-vector-icons/Ionicons';
+
 import { ORANGE, GRAY, WHITE, TEAL } from '../../assets/colors';
-import { CoordsArr } from '../../types';
 import {
   checkPermission,
   requestLocationPermission,
@@ -11,22 +10,16 @@ import {
 import { RESULTS } from 'react-native-permissions';
 import { useNavigation } from '@react-navigation/core';
 import { Paths } from '../../navigation/paths.types';
-import { useGeolocation } from '../../hooks/useGeolocation';
 
 const ICON_SIZE = 25;
 
 type MyLocationButtonProps = {
-  onMyLocationPress: (coordinates: CoordsArr) => void;
+  onMyLocationPress: () => void;
 };
 
 export const MyLocationButton: React.FC<MyLocationButtonProps> = React.memo(
   ({ onMyLocationPress }) => {
     const { navigate } = useNavigation();
-    const [lat, lng] = useGeolocation();
-
-    const goToMyLocation = useCallback(() => {
-      onMyLocationPress([lng, lat]);
-    }, [onMyLocationPress, lat, lng]);
 
     const onButtonPress = useCallback(async () => {
       await checkPermission().then(resp => {
@@ -35,10 +28,10 @@ export const MyLocationButton: React.FC<MyLocationButtonProps> = React.memo(
         } else if (resp === RESULTS.DENIED) {
           requestLocationPermission();
         } else {
-          goToMyLocation();
+          onMyLocationPress();
         }
       });
-    }, [goToMyLocation, navigate]);
+    }, [onMyLocationPress, navigate]);
 
     return (
       <TouchableHighlight

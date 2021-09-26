@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
+  AppState,
   Linking,
   Pressable,
   SafeAreaView,
@@ -16,6 +17,8 @@ import {
   LIGHT_GREEN,
   EXTRA_LIGHT_GREEN,
 } from '../assets/colors';
+import { checkPermission } from '../hooks/useRequestPermission';
+import { RESULTS } from 'react-native-permissions';
 
 const backButton = 'Back';
 const title = 'We need help finding you';
@@ -70,6 +73,24 @@ const styles = StyleSheet.create({
 
 export const RequestSettingsScreen: React.FC = React.memo(() => {
   const { goBack } = useNavigation();
+  const handleAppStateChange = useCallback(
+    (nextAppState: string) => {
+      if (nextAppState === 'active') {
+        checkPermission().then(resp => {
+          if (resp === RESULTS.GRANTED) {
+            goBack();
+          }
+        });
+      }
+    },
+    [goBack],
+  );
+
+  useEffect(() => {
+    AppState.addEventListener('change', handleAppStateChange);
+    return () => AppState.removeEventListener('change', handleAppStateChange);
+  }, [handleAppStateChange]);
+
   return (
     <SafeAreaView style={styles.wrapper}>
       <Pressable onPress={goBack}>

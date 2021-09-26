@@ -13,7 +13,11 @@ export const checkPermission = async () => {
 export const requestLocationPermission = async () => {
   let permissionStatus = await checkPermission();
   if (permissionStatus === RESULTS.DENIED) {
-    permissionStatus = await request(permission);
+    try {
+      permissionStatus = await request(permission);
+    } catch (e) {
+      console.log(e);
+    }
   }
   return permissionStatus === RESULTS.GRANTED;
 };

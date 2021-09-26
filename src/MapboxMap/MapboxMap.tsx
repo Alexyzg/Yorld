@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { CoordsArr, Place } from '../types';
 import { useCameraApi } from './hooks/cameraApi.hooks';
@@ -16,7 +16,7 @@ type MapboxMapProps = {
 export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
   ({ setPlace, places }) => {
     const { cameraRef, cameraApi } = useCameraApi();
-
+    const [userLocation, setUserLocation] = useState<CoordsArr>();
     const onMarkerPress = useCallback(
       (coordinates: CoordsArr) => {
         //TODO change find place or set place by ID
@@ -36,12 +36,9 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
       [setPlace, cameraApi, places],
     );
 
-    const onMyLocationPress = useCallback(
-      (coordinates: CoordsArr) => {
-        cameraApi.centeringByCoordinate(coordinates);
-      },
-      [cameraApi],
-    );
+    const onMyLocationPress = useCallback(() => {
+      userLocation && cameraApi.centeringByCoordinate(userLocation);
+    }, [userLocation, cameraApi]);
 
     const onEmptyMapPress = useCallback(() => {
       setPlace(undefined);
@@ -62,6 +59,13 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
           [] as CoordsArr[],
         ),
       [places],
+    );
+
+    const onUpdateUserLocation = useCallback(
+      ({ coords: { longitude, latitude } }) => {
+        setUserLocation([longitude, latitude]);
+      },
+      [setUserLocation],
     );
 
     return (
@@ -91,7 +95,11 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
             onMarkerPress={onMarkerPress}
             coordinatesOfPlaces={coordinatesOfPlaces}
           />
-          <MapboxGL.UserLocation androidRenderMode={'normal'} animated />
+          <MapboxGL.UserLocation
+            onUpdate={onUpdateUserLocation}
+            androidRenderMode={'normal'}
+            animated
+          />
         </MapboxGL.MapView>
         <MyLocationButton onMyLocationPress={onMyLocationPress} />
       </>
