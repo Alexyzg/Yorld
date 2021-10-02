@@ -29,6 +29,7 @@ export const Categories: React.FC<CategoriesProps> = React.memo(
           style={styles.category1Style}
           itemStyles={styles.item1Styles}
           itemSelected={setFilter}
+          indexSelected={0}
           colorItemDefault={'#fff'}
           colorItemSelected={'#333'}
           colorTextDefault={'#fff'}

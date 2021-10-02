@@ -15,6 +15,7 @@ import { PlaceDetailScreen } from '../PlaceDetailScreen/PlaceDetailScreen';
 import { TimelineScreen } from '../TimelineScreen/TimelineScreen';
 import { RequestSettingsScreen } from '../RequestSettngsScreen';
 import { HomeScreen } from '../HomeScreen';
+import { BlankScreen } from "../BlankScreen";
 
 const Tabs = AnimatedTabBarNavigator();
 const Stack = createStackNavigator();
@@ -99,7 +100,7 @@ export const AppNavigation: React.FC = () => {
         />
         <Tabs.Screen
           name="Self"
-          component={() => <View />}
+          component={BlankScreen}
           options={getOptions('paw')}
         />
       </Tabs.Navigator>

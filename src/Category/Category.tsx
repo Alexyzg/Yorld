@@ -62,7 +62,7 @@ export type CategoryProps = {
   style?: ViewStyle;
   itemStyles?: ViewStyle;
   textType?: TextType;
-  itemSelected?: (id: string) => void;
+  itemSelected: (id: string) => void;
 };
 
 const defaultData = {
@@ -79,6 +79,7 @@ const defaultData = {
   indexSelected: 0,
   iconSet: 'FontAwesome',
   iconSize: 30,
+  itemSelected: () => {},
 };
 
 export const Category: React.FC<CategoryProps> = React.memo(
@@ -125,8 +126,11 @@ export const Category: React.FC<CategoryProps> = React.memo(
               ],
               [],
             );
+      if (adaptedData[0]?.id) {
+        itemSelected(adaptedData[0].id);
+      }
       setCategoriesData(adaptedData);
-    }, [setCategoriesData, data, imageData, indexSelected]);
+    }, [itemSelected, setCategoriesData, data, imageData, indexSelected]);
 
     const handleItemCategoryClick = useCallback(
       (item, index) => {

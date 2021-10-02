@@ -95,6 +95,6 @@ export const MyCarousel = () => (
     containerCustomStyle={styles.slider}
     contentContainerCustomStyle={styles.sliderContentContainer}
     useScrollView
-    layoutCardOffset={'9'}
+    layoutCardOffset={9}
   />
 );
