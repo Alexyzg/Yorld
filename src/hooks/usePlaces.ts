@@ -1,20 +1,12 @@
 import { useState, useEffect } from 'react';
-import firestore from '@react-native-firebase/firestore';
 import { Place } from '../types';
+
+const data = require('../../data.json');
 
 export const usePlaces = () => {
   const [places, setPlaces] = useState<Place[] | undefined>();
   useEffect(() => {
-    firestore()
-      .collection('places-test')
-      .get()
-      .then(querySnapshot => {
-        let fetchedPlaces = [] as Place[];
-        querySnapshot.forEach(documentSnapshot => {
-          fetchedPlaces.push(documentSnapshot.data() as Place);
-        });
-        setPlaces(fetchedPlaces);
-      });
+    setPlaces(data);
   }, []);
   return places;
 };

@@ -16,6 +16,7 @@ import IoniconsIcons from 'react-native-vector-icons/Ionicons';
 import MaterialIconsIcons from 'react-native-vector-icons/MaterialIcons';
 import OcticonsIcons from 'react-native-vector-icons/Octicons';
 import ZocialIcons from 'react-native-vector-icons/Zocial';
+import { capitalize } from '../utils';
 
 const iconSets = {
   Entypo: EntypoIcons,
@@ -29,11 +30,11 @@ const iconSets = {
 };
 
 //type text in item category
-export const TypeText = {
-  UPPER: 'UPPER',
-  LOWER: 'LOWER',
-  CAPITALIZE: 'CAPITALIZE',
-};
+export enum TypeText {
+  UPPER = 'UPPER',
+  LOWER = 'LOWER',
+  CAPITALIZE = 'CAPITALIZE',
+}
 
 export type ItemCategory = {
   id: number | string;
@@ -61,7 +62,7 @@ export type CategoryProps = {
   style?: ViewStyle;
   itemStyles?: ViewStyle;
   textType?: TextType;
-  itemSelected?: (item: ItemCategory) => void;
+  itemSelected?: (id: string) => void;
 };
 
 const defaultData = {
@@ -137,7 +138,7 @@ export const Category: React.FC<CategoryProps> = React.memo(
         );
 
         if (typeof itemSelected === 'function') {
-          itemSelected(item);
+          itemSelected(item.id);
         }
       },
       [categoriesData, itemSelected],
@@ -152,7 +153,7 @@ export const Category: React.FC<CategoryProps> = React.memo(
           case TypeText.LOWER:
             return text.toLowerCase();
           case TypeText.CAPITALIZE:
-            return text.charAt(0).toUpperCase() + text.slice(1);
+            return capitalize(text);
           default:
             return text;
         }

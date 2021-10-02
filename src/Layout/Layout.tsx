@@ -29,16 +29,24 @@ export const MapHeader: React.FC<MapHeaderProps> = ({ isGrid, toggleView }) => (
   </View>
 );
 
-const MapFilter = ({ showTime }: { showTime: boolean }) => (
-  <View style={styles.overlayContainer}>
-    <LinearGradient
-      colors={['#ffffff', '#ffffff00']}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 0, y: 1.2 }}
-      style={{ height: showTime ? 90 : 40, width: '100%' }}
-    />
-    <Categories showTime={showTime} />
-  </View>
+type PapFilterProps = {
+  showTime: boolean;
+  types: any[];
+  setFilter: (type: string) => void;
+};
+
+const MapFilter: React.FC<PapFilterProps> = React.memo(
+  ({ showTime, types, setFilter }) => (
+    <View style={styles.overlayContainer}>
+      <LinearGradient
+        colors={['#ffffff', '#ffffff00']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1.2 }}
+        style={{ height: showTime ? 90 : 40, width: '100%' }}
+      />
+      <Categories showTime={showTime} types={types} setFilter={setFilter} />
+    </View>
+  ),
 );
 
 export type LayoutProps = {
@@ -46,14 +54,16 @@ export type LayoutProps = {
   isGrid: boolean;
   toggleView: (value: boolean) => void;
   showTime?: boolean;
+  types: any[];
+  setFilter: (type: string) => void;
 };
 
 export const Layout: React.FC<LayoutProps> = React.memo(
-  ({ children, showTime = false, isGrid, toggleView }) => (
+  ({ children, showTime = false, isGrid, toggleView, types, setFilter }) => (
     <>
       <MapHeader isGrid={isGrid} toggleView={toggleView} />
       {children}
-      <MapFilter showTime={showTime} />
+      <MapFilter showTime={showTime} types={types} setFilter={setFilter} />
     </>
   ),
 );

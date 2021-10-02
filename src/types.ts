@@ -31,7 +31,7 @@ export type Place = {
   id: string;
   previewImage: string;
   images: string[];
-  type: PlacesTypes;
+  type: string;
   location: {
     geo: { lat: Lat; lng: Lng };
     address: string;
