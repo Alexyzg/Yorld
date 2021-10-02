@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     position: 'absolute',
     width: '100%',
+    bottom: 200
   },
   item1Styles: {
     backgroundColor: '#fff',

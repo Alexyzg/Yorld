@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { TouchableHighlight, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { ORANGE, GRAY, WHITE, TEAL } from '../../assets/colors';
+import {GRAY, WHITE, TEAL, ORANGE} from '../../assets/colors';
 import {
   checkPermission,
   requestLocationPermission,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   searchButton: {
     position: 'absolute',
     right: 16,
-    bottom: 200,
+    bottom: 260,
     height: 50,
     width: 50,
     alignItems: 'center',

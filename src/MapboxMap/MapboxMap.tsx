@@ -37,6 +37,7 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
     );
 
     const onMyLocationPress = useCallback(() => {
+        console.log('user location', userLocation)
       userLocation && cameraApi.centeringByCoordinate(userLocation);
     }, [userLocation, cameraApi]);
 
