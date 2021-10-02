@@ -3,12 +3,11 @@ import {
   Platform,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Categories } from './Categories';
-import SwitchSelector from 'react-native-switch-selector';
+import SwitchSelector from '../components/SwitchSelector';
 import { Children } from '../types';
 import { SwitchToListButton } from '../components/SwitchToListButton/SwitchToListButton';
 import { FilterButton } from '../components/FilterButton/FilterButton';
@@ -52,20 +51,6 @@ type PapFilterProps = {
   setFilter: (type: string) => void;
 };
 
-// const MapFilter: React.FC<PapFilterProps> = React.memo(
-//   ({ showTime, types, setFilter }) => (
-//     <View style={styles.overlayContainer}>
-//       <LinearGradient
-//         colors={['#ffffff', '#ffffff00']}
-//         start={{ x: 0, y: 0 }}
-//         end={{ x: 0, y: 1.2 }}
-//         style={{ height: showTime ? 90 : 40, width: '100%' }}
-//       />
-//
-//     </View>
-//   ),
-// );
-
 const MapFilter = ({ showTime }: { showTime: boolean }) => (
   <View style={styles.overlayContainer}>
     <LinearGradient
@@ -83,8 +68,6 @@ const MapFilter = ({ showTime }: { showTime: boolean }) => (
         top: 10,
         left: 0,
         right: 0,
-        // borderColor: '#eee',
-        // borderWidth: 1,
         marginHorizontal: 40,
         borderRadius: 60,
       }}
