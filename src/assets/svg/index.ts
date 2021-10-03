@@ -6,3 +6,4 @@ export { default as FatherShoulders } from './father_shoulders.svg';
 export { default as FatherBackpack } from './father_backpack.svg';
 export { default as FatherFishing } from './father_fishing.svg';
 
+export { default as Marker } from './Marker.svg';

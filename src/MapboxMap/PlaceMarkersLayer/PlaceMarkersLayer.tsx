@@ -1,47 +1,68 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import MapboxGL, { OnPressEvent } from '@react-native-mapbox-gl/maps';
-import { CoordsArr } from '../../types';
+import { Place } from '../../types';
 import { getCoordsLikeArr } from '../../utils';
+import { Marker } from '../../assets/svg';
+import { View } from 'react-native';
+import { styles } from './PlaceMarkersLayer.styles';
+import { PlaceMarkersLayerProps } from '../MapboxMap.types';
 
-const mockedcoordinates = [
-  [25.278652, 54.688157],
-  [25.280652, 54.689157],
-  [25.277652, 54.687657],
-  [25.281652, 54.687157],
-  [25.279652, 54.687357],
-  [25.285652, 54.687157],
-  [25.285652, 54.687157],
-  [25.287652, 54.687157],
-  [25.289652, 54.687157],
-  [25.279652, 54.687957],
-] as CoordsArr[];
+const getFeatureCollectionFromPlaces = (
+  places: Place[],
+): GeoJSON.FeatureCollection => ({
+  type: 'FeatureCollection',
+  features: (places || []).map(place => {
+    const { lat, lng } = place.location.geo;
+    return {
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [+lng, +lat] },
+      properties: place,
+      id: place.id,
+    };
+  }),
+});
 
-const markerStyle = {
-  circleRadius: 5,
-  circleColor: '#fbb03b',
-};
-
-type PlaceMarkersLayerProps = {
-  coordinatesOfPlaces?: CoordsArr[];
-  onMarkerPress: (coordinates: CoordsArr) => void;
-};
+const getVisibility = (styles, flag) => ({
+  ...styles,
+  visibility: flag ? 'visible' : 'none',
+});
 
 export const PlaceMarkersLayer: React.FC<PlaceMarkersLayerProps> = React.memo(
-  ({ coordinatesOfPlaces = mockedcoordinates, onMarkerPress }) => {
-    const formatedCoordinatesOfPlaces = {
-      type: 'MultiPoint',
-      coordinates: coordinatesOfPlaces,
-    } as GeoJSON.MultiPoint;
+  ({ places = [], setSelectedPlace, showMarkers }) => {
+    const coordinatesFeatureCollection = useMemo(
+      () => getFeatureCollectionFromPlaces(places),
+      [places],
+    );
 
+    const onMarkerPress = useCallback(
+      (event: OnPressEvent) => {
+        setSelectedPlace(
+          event.features[0].properties as Place,
+          getCoordsLikeArr(event.coordinates),
+        );
+      },
+      [setSelectedPlace],
+    );
     return (
       <MapboxGL.ShapeSource
         id="PlaceMarkersLayer"
-        shape={formatedCoordinatesOfPlaces}
-        onPress={(event: OnPressEvent) => {
-          onMarkerPress(getCoordsLikeArr(event.coordinates));
-        }}
+        shape={coordinatesFeatureCollection}
+        onPress={onMarkerPress}
       >
-        <MapboxGL.CircleLayer id="PlaceMarker" style={markerStyle} />
+        <MapboxGL.SymbolLayer
+          id="MarkerSymbolLayer"
+          sourceID="PlaceMarker"
+          style={getVisibility(styles.symboleLayer, showMarkers)}
+        >
+          {/* this is important for the onPress prop of ShapeSource to work */}
+          <View pointerEvents="none">
+            <Marker />
+          </View>
+        </MapboxGL.SymbolLayer>
+        <MapboxGL.CircleLayer
+          id="PlaceMarker"
+          style={getVisibility(styles.dots, !showMarkers)}
+        />
       </MapboxGL.ShapeSource>
     );
   },
