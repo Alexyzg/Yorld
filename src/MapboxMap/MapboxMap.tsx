@@ -5,13 +5,18 @@ import { useCameraApi } from './hooks/cameraApi.hooks';
 import { stylesFor3d, styles, mapboxStylesUrl } from './MapboxMap.styles';
 import { PlaceMarkersLayer } from './PlaceMarkersLayer';
 import { MyLocationButton } from '../components/MyLocationButton/MyLocationButton';
-import { centerVilnius, MapboxMapProps, SetSelectedPlace } from './MapboxMap.types';
+import {
+  centerVilnius,
+  MapboxMapProps,
+  SetSelectedPlace,
+} from './MapboxMap.types';
+import { useSwitchBetweenMarkersDots } from './MapboxMap.hooks';
 
 export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
   ({ setPlace, places }) => {
     const { cameraRef, cameraApi } = useCameraApi();
     const [userLocation, setUserLocation] = useState<CoordsArr>();
-    const setSelectedPlace= useCallback<SetSelectedPlace>(
+    const setSelectedPlace = useCallback<SetSelectedPlace>(
       (place, coordinates) => {
         setPlace(place);
         cameraApi.centeringByCoordinate(coordinates);
@@ -35,7 +40,9 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
     );
 
     const mapRef = useRef<MapboxGL.MapView>(null);
-    
+    const { showMarkers, zoomLevelListener } =
+      useSwitchBetweenMarkersDots(mapRef);
+
     return (
       <>
         <MapboxGL.MapView
@@ -46,6 +53,7 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
           compassEnabled={false}
           logoEnabled={false}
           onPress={onEmptyMapPress}
+          onRegionDidChange={zoomLevelListener}
         >
           <MapboxGL.Camera
             ref={cameraRef}
@@ -60,10 +68,10 @@ export const MapboxMap: React.FC<MapboxMapProps> = React.memo(
             sourceLayerID="building"
             style={stylesFor3d}
           />
-          {console.log(async () => await mapRef.current?.getZoom())}
           <PlaceMarkersLayer
             setSelectedPlace={setSelectedPlace}
             places={places}
+            showMarkers={showMarkers}
           />
           <MapboxGL.UserLocation
             onUpdate={onUpdateUserLocation}

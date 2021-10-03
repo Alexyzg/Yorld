@@ -1,4 +1,4 @@
-import { CoordsArr, Place } from "../types";
+import { CoordsArr, Place } from '../types';
 
 export const centerVilnius: CoordsArr = [25.279652, 54.687157];
 
@@ -12,4 +12,5 @@ export type MapboxMapProps = {
 export type PlaceMarkersLayerProps = {
   places?: Place[];
   setSelectedPlace: SetSelectedPlace;
+  showMarkers: boolean;
 };

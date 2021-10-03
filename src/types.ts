@@ -11,10 +11,6 @@ export type CoordsObj = {
 
 export type Children = JSX.Element | ReactNode | null | (JSX.Element | null)[];
 
-enum PlacesTypes {
-  Park = 'Park',
-}
-
 enum SocialTypes {
   Phone = 'phone',
   Url = 'url',

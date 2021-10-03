@@ -1,11 +1,12 @@
-import { ViewStyle } from "react-native";
+import { ViewStyle } from 'react-native';
 
 export const styles = {
   symboleLayer: {
-    iconSize: 1,
+    iconSize: 0.8,
+    iconOffset: [168, -24],
     iconAllowOverlap: true,
   },
-  marker: {
+  dots: {
     circleRadius: 5,
     circleColor: '#fbb03b',
   },
