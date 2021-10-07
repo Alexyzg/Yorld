@@ -179,7 +179,7 @@ const ActionPanel: React.FC<{
       <Androw style={styles.shadow}>
         <Image
           style={styles.actionIcon}
-          source={require('../assets/svg/marker.png')}
+          source={require('../assets/svg/markerImage.png')}
         />
       </Androw>
       <Text>Navigate</Text>

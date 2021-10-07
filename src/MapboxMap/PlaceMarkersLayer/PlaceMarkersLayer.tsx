@@ -2,8 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import MapboxGL, { OnPressEvent } from '@react-native-mapbox-gl/maps';
 import { Place } from '../../types';
 import { getCoordsLikeArr } from '../../utils';
-import { Marker } from '../../assets/svg';
-import { View } from 'react-native';
+import { markerPng } from '../../assets/svg';
 import { styles } from './PlaceMarkersLayer.styles';
 import { PlaceMarkersLayerProps } from '../MapboxMap.types';
 
@@ -50,15 +49,15 @@ export const PlaceMarkersLayer: React.FC<PlaceMarkersLayerProps> = React.memo(
         onPress={onMarkerPress}
       >
         <MapboxGL.SymbolLayer
-          id="MarkerSymbolLayer"
-          sourceID="PlaceMarker"
-          style={getVisibility(styles.symboleLayer, showMarkers)}
-        >
-          {/* this is important for the onPress prop of ShapeSource to work */}
-          <View pointerEvents="none">
-            <Marker />
-          </View>
-        </MapboxGL.SymbolLayer>
+          id={'iconLayerId'}
+          key={'iconLayerId'}
+          style={
+            {
+              iconImage: markerPng,
+              ...getVisibility(styles.symboleLayer, showMarkers),
+            }
+          }
+        />
         <MapboxGL.CircleLayer
           id="PlaceMarker"
           style={getVisibility(styles.dots, !showMarkers)}

@@ -3,7 +3,6 @@ import { ViewStyle } from 'react-native';
 export const styles = {
   symboleLayer: {
     iconSize: 0.8,
-    iconOffset: [168, -24],
     iconAllowOverlap: true,
   },
   dots: {

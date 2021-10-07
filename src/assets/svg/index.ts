@@ -7,3 +7,4 @@ export { default as FatherBackpack } from './father_backpack.svg';
 export { default as FatherFishing } from './father_fishing.svg';
 
 export { default as Marker } from './Marker.svg';
+export { default as markerPng } from './markerImage.png';
